@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from enum import Enum
 import requests
@@ -42,9 +42,9 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials.credentials != BEARER_TOKEN:
         raise HTTPException(status_code=401, detail="Invalid or missing token")
 
-@app.get("/embrapa/vitivinicultura/")
+@app.get("/embrapa/vitivinicultura/{categoria}")
 def get_categoria(
-    categoria: CategoriaEnum = Query(..., description="Categoria de dados para consulta"),
+    categoria: CategoriaEnum,
     credentials: HTTPAuthorizationCredentials = Depends(verify_token),
 ):
     file_path = Path(DOWNLOAD_DIR) / f"{categoria.value}.csv"
