@@ -100,8 +100,8 @@
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-32" value="Requisição feita por postman, app ou outra aplicação backend" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="135" y="360" width="160" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-34" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Benefícios&lt;/h1&gt;&lt;p&gt;Simplicidade na solução, uma única aplicação que baixa dados e disponibiliza via api;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="201" y="523" width="511" height="307" as="geometry" />
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-34" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Benefícios&lt;/h1&gt;&lt;p&gt;Simplicidade na solução, uma única aplicação que baixa dados e disponibiliza via api;&lt;/p&gt;&lt;p&gt;Não precisa de banco de dados, tudo controlado em arquivo físico para consulta dados;&lt;br&gt;&lt;br&gt;Autenticação simples, fácil de usar;&lt;/p&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Pontos ruíns&lt;/h1&gt;&lt;p&gt;Se a fonte de dados esta off e ainda não tem o arquivo csv baixado, a api não retornada os dados;&lt;/p&gt;&lt;p&gt;Não tem um job para forçar a a atualização dos dados;&lt;/p&gt;&lt;p&gt;Por ser uma ama autenticação de credenciais simples, fixa em toda requisção, torna-se menos segura que o padrão de mercado, o OAuth2.&lt;/p&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Principais Componentes Usados&lt;/h1&gt;&lt;p&gt;FASP API;&lt;br&gt;Request;&lt;br&gt;CSV;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="201" y="523" width="511" height="425" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
