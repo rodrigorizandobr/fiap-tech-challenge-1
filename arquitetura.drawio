@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.5">
   <diagram name="Page-1" id="FrGontYNFCra-DEAx2VX">
-    <mxGraphModel grid="0" page="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -9,12 +9,6 @@
         </mxCell>
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-1" value="API&lt;br&gt;GET: /embrapa/vitivinicultura/{categoria}" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="320" y="270" width="230" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-2" target="ZoZDewvbO3Nmt_wSfQS6-1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-2" value="Client" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="200" y="270" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-12" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-7" target="ZoZDewvbO3Nmt_wSfQS6-9">
           <mxGeometry relative="1" as="geometry" />
@@ -80,7 +74,7 @@
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-24" value="Fim Erro" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="1560" y="160" width="60" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-26" value="Fluxo de processamento da requisição" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-26" value="Diagrama de processo" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="200" y="160" width="410" height="29" as="geometry" />
         </mxCell>
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-30" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-27" target="ZoZDewvbO3Nmt_wSfQS6-7">
@@ -102,6 +96,52 @@
         </mxCell>
         <mxCell id="ZoZDewvbO3Nmt_wSfQS6-34" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Benefícios&lt;/h1&gt;&lt;p&gt;Simplicidade na solução, uma única aplicação que baixa dados e disponibiliza via api;&lt;/p&gt;&lt;p&gt;Não precisa de banco de dados, tudo controlado em arquivo físico para consulta dados;&lt;br&gt;&lt;br&gt;Autenticação simples, fácil de usar;&lt;/p&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Pontos ruíns&lt;/h1&gt;&lt;p&gt;Se a fonte de dados esta off e ainda não tem o arquivo csv baixado, a api não retornada os dados;&lt;/p&gt;&lt;p&gt;Não tem um job para forçar a a atualização dos dados;&lt;/p&gt;&lt;p&gt;Por ser uma ama autenticação de credenciais simples, fixa em toda requisção, torna-se menos segura que o padrão de mercado, o OAuth2.&lt;/p&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Principais Componentes Usados&lt;/h1&gt;&lt;p&gt;FASP API;&lt;br&gt;Request;&lt;br&gt;CSV;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="201" y="523" width="511" height="425" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-35" value="Diagrama de contexto" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="850" y="523" width="410" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-36" value="Client" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="280" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-49" value="GET CSVs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-38" target="ZoZDewvbO3Nmt_wSfQS6-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-38" value="API Embrapa" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="680" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-44" value="&lt;span style=&quot;font-size: 12px; text-wrap-mode: wrap; background-color: rgb(251, 251, 251);&quot;&gt;GET: /embrapa/vitivinicultura/{categoria}&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-39" target="ZoZDewvbO3Nmt_wSfQS6-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-39" value="Postman" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="599" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-45" value="&lt;span style=&quot;font-size: 12px; text-wrap-mode: wrap; background-color: rgb(251, 251, 251);&quot;&gt;GET: /embrapa/vitivinicultura/{categoria}&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-40" target="ZoZDewvbO3Nmt_wSfQS6-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-40" value="Futura aplicação de ML" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="760" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-42" target="ZoZDewvbO3Nmt_wSfQS6-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ZoZDewvbO3Nmt_wSfQS6-42" target="ZoZDewvbO3Nmt_wSfQS6-38">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="865" y="580" />
+              <mxPoint x="1410" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-47" value="GET:&amp;nbsp;/docs" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="ZoZDewvbO3Nmt_wSfQS6-46">
+          <mxGeometry x="-0.0011" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-42" value="Usuário" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="599" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZoZDewvbO3Nmt_wSfQS6-48" value="Site Embrapa&lt;br&gt;http://vitibrasil.cnpuv.embrapa.br/" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="680" width="190" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
