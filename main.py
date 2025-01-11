@@ -56,13 +56,13 @@ security = HTTPBearer()
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials.credentials != BEARER_TOKEN:
-        raise HTTPException(status_code=401, detail="Invalid or missing token")
+        raise HTTPException(status_code=401, detail="Token inválido")
 
 @app.get(
     "/embrapa/vitivinicultura/{categoria}",
     responses={
-        200: {"description": "Lista de dados categorizados"},
-        500: {"description": "Erro interno de servidor"},
+        200: {"descrição": "Lista de dados categorizados"},
+        500: {"descrição": "Erro interno de servidor"},
     },
 )
 def get_categoria(
@@ -99,7 +99,7 @@ def download_file(url: str, filename: str) -> Path:
         with open(file_path, "wb") as file:
             file.write(response.content)
     except requests.RequestException as e:
-        raise HTTPException(status_code=500, detail={"error": 500, "message": str(e)})
+        raise HTTPException(status_code=500, detail={"Erro": 500, "Mensagem": str(e)})
 
     return file_path
 
