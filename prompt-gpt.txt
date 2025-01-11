@@ -1,0 +1,25 @@
+Faça uma api em python usando fastapi e request.
+
+Qualquer endpoint desta api deve estar protegida por um bearer token. O valor deste beader token deve estar em uma varíavel logo no inicio do código da aplicação.
+
+A api deve tem um único endpoint, GET: /embrapa/vitivinicultura/{categoria}
+
+O enum de que {categorias} pode receber é: producao, processamento, comercializacao, importacao e exportacao.
+
+Cada valor do enum, deve estar associado a uma URL:
+
+producao: http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv
+processamento: http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv
+comercializacao: http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv
+importacao: http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv
+exportacao: http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv
+
+Para cada requisição deve-ser verificar se existe o arquivo {categoria}.csv na pasta /doaloads.
+
+Se não existe o arquivo {categoria}.csv, deve-se fazer o download do arquivo informado na url da {categoria} relacionada e salvar na pasta com o nome /downloads/{categoria}.csv. Depois disso, responda a requisição retornando os dados do csv baixado, mas convertido para json.
+
+Caso alguma intercorrência que impeça de baixar o arquivo, inclusive timeout de 20 segundos, retorne erro 500 com um json no payload na estrutura {error: 500, message "descricao do erro aqui"}.
+
+Se o arquivo já existe, retone o arquivo csv, mas em formato json.
+
+
