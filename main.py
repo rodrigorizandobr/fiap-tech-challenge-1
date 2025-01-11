@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel
 from enum import Enum
+from typing import List, Optional
 import requests
 import os
 import csv
-import json
 from pathlib import Path
 import ssl
 import certifi
@@ -35,6 +36,12 @@ CATEGORIA_URLS = {
     CategoriaEnum.exportacao: "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv",
 }
 
+class CategoriaResponse(BaseModel):
+    id: str
+    control: str
+    produto: str
+    anos: Optional[dict[str, str]]
+
 app = FastAPI()
 security = HTTPBearer()
 
@@ -42,7 +49,42 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     if credentials.credentials != BEARER_TOKEN:
         raise HTTPException(status_code=401, detail="Invalid or missing token")
 
-@app.get("/embrapa/vitivinicultura/{categoria}")
+@app.get(
+    "/embrapa/vitivinicultura/{categoria}",
+    response_model=List[CategoriaResponse],
+    responses={
+        200: {
+            "description": "Lista de dados categorizados",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "id": "string",
+                            "control": "string",
+                            "produto": "string",
+                            "anos": {
+                                "2023": "217208604",
+                                "2024": "154264651"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        500:{
+            "description": "Erro interno de servidor",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "error": 500, "message": "descrição do erro"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+)
 def get_categoria(
     categoria: CategoriaEnum,
     credentials: HTTPAuthorizationCredentials = Depends(verify_token),
@@ -73,7 +115,15 @@ def csv_to_json(file_path):
     try:
         with open(file_path, mode="r", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=';')
-            rows = [row for row in reader]
+            rows = []
+            for row in reader:
+                data = {
+                    "id": row.get("id", ""),
+                    "control": row.get("control", ""),
+                    "produto": row.get("produto", ""),
+                    "anos": {key: row[key] for key in row if key.isdigit() and row[key].strip()}
+                }
+                rows.append(data)
             return rows
     except Exception as e:
         raise HTTPException(status_code=500, detail={"error": 500, "message": f"Error reading CSV file: {str(e)}"})
