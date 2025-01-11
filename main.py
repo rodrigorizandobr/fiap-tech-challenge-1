@@ -72,12 +72,12 @@ def get_categoria(
 def csv_to_json(file_path):
     try:
         with open(file_path, mode="r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            return list(reader)
+            reader = csv.DictReader(file, delimiter=';')
+            rows = [row for row in reader]
+            return rows
     except Exception as e:
         raise HTTPException(status_code=500, detail={"error": 500, "message": f"Error reading CSV file: {str(e)}"})
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
-
