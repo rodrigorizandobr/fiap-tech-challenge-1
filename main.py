@@ -113,11 +113,12 @@ def csv_to_json(file_path: Path) -> List[dict]:
                 json_row = {}
                 anos = {}
                 for key, value in row.items():
-                    if key.isdigit():
+                    if key.isdigit():  # Trata colunas que representam anos
                         if key not in anos:
-                            anos[key] = {"quantidade": value}
+                            anos[key] = {"valor": value}  # Primeiro valor para o ano
                         else:
-                            anos[key]["valor"] = value
+                            anos[key]["quantidade"] = anos[key].get("valor", None)  # Move o primeiro valor para "quantidade"
+                            anos[key]["valor"] = value  # Atualiza o novo valor como "valor"
                     else:
                         json_row[key] = value
                 if anos:
@@ -126,7 +127,7 @@ def csv_to_json(file_path: Path) -> List[dict]:
 
             return rows
     except Exception as e:
-        raise HTTPException(status_code=500, detail={"error": 500, "message": f"Error reading CSV file: {str(e)}"})
+        raise HTTPException(status_code=500, detail={"Erro": 500, "Mensagem": f"Erro na leitura do arquivo CSV: {str(e)}"})
 
 if __name__ == "__main__":
     import uvicorn
