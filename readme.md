@@ -43,12 +43,8 @@ python -m venv venv; .\venv\Scripts\activate; pip install -r requirements.txt; u
 
 1. Pressione `CTRL+C` no terminal onde a aplicação está rodando para interromper a execução.
 2. **Para desativar o ambiente virtual:**
-   - **macOS/Linux:**
+   - **macOS/Linux ou Windows (PowerShell):**
      ```bash
-     deactivate
-     ```
-   - **Windows (PowerShell):**
-     ```powershell
      deactivate
      ```
 
