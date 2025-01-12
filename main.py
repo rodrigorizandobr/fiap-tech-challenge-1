@@ -9,6 +9,9 @@ from pathlib import Path
 import ssl
 import certifi
 import re
+from unidecode import unidecode
+
+
 
 
 # Configurações iniciais
@@ -90,8 +93,21 @@ def get_categoria(
 
     raise HTTPException(status_code=500, detail="Erro interno desconhecido.")
 
+def slugify(value: str) -> str:
+    """
+    Transforma uma string em um slug:
+    - Remove acentos.
+    - Converte para minúsculas.
+    - Substitui espaços e caracteres especiais por '-'.
+    """
+    value = unidecode(value)  # Remove acentos e normaliza
+    value = re.sub(r"[^\w\s-]", "", value).strip().lower()  # Remove caracteres especiais
+    value = re.sub(r"[-\s]+", "-", value)  # Substitui espaços e hífens consecutivos por um único hífen
+    return value
+
 def download_file(url: str, filename: str) -> Path:
-    file_path = Path(DOWNLOAD_DIR) / f"{filename}.csv"
+    slug_filename = slugify(filename)
+    file_path = Path(DOWNLOAD_DIR) / f"{slug_filename}.csv"
     if file_path.exists():
         return file_path
 
