@@ -105,14 +105,15 @@ def get_categoria(
 
     if isinstance(urls, str):  # Categoria simples
         file_path = download_file(urls, categoria)
-        return csv_to_json(file_path)
+        return csv_to_json(file_path, categoria)
 
     elif isinstance(urls, list):  # Categoria com múltiplos arquivos
         all_data = []
         for url_obj in urls:
             for key, url in url_obj.items():  # Itera pela chave (ex.: "Vinifera") e URL
+                sub_categoria = f"{categoria}-{slugify(key)}"
                 file_path = download_file(url, f"{categoria}_{key}")
-                all_data.extend(csv_to_json(file_path))
+                all_data.extend(csv_to_json(file_path, sub_categoria))
         return all_data
 
     raise HTTPException(status_code=500, detail="Erro interno desconhecido.")
@@ -145,7 +146,7 @@ def download_file(url: str, filename: str) -> Path:
 
     return file_path
 
-def csv_to_json(file_path: Path) -> List[dict]:
+def csv_to_json(file_path: Path, categoria: str) -> List[dict]:
     try:
         # Substituir tabulação por ponto e vírgula antes de processar
         with open(file_path, mode="r", encoding="utf-8") as file:
@@ -175,7 +176,7 @@ def csv_to_json(file_path: Path) -> List[dict]:
             # Processa os dados
             rows = []
             for row in reader:
-                json_row = {}
+                json_row = {"categoria": categoria}
                 anos = {}
 
                 # Adiciona colunas não relacionadas a anos
