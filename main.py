@@ -15,12 +15,6 @@ BEARER_TOKEN = "zQwcy2podAfPPYeoqtrdwvbECb5BbIyr7Xa9KYftTdJhrbxHpPPo09Ol1oWvKIzx
 DOWNLOAD_DIR = "downloads"
 TIMEOUT = 20  # Timeout para requests em segundos
 
-# Criando diretório de downloads, se não existir
-os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-
-# Configuração para uso do SSL com certificados
-ssl_context = certifi.where()
-
 CATEGORIA_URLS = {
     "producao": "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
     "comercializacao": "http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
@@ -44,6 +38,12 @@ CATEGORIA_URLS = {
         {"Espumantes": "http://vitibrasil.cnpuv.embrapa.br/download/ExpEspumantes.csv"}
     ],
 }
+
+# Criando diretório de downloads, se não existir
+os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+
+# Configuração para uso do SSL com certificados
+ssl_context = certifi.where()
 
 app = FastAPI()
 security = HTTPBearer()
@@ -121,10 +121,7 @@ def get_categoria(
 
 def slugify(value: str) -> str:
     """
-    Transforma uma string em um slug:
-    - Remove acentos.
-    - Converte para minúsculas.
-    - Substitui espaços e caracteres especiais por '-'.
+    Transforma uma string em um slug: Remove acentos, converte para minúsculas, substitui espaços e caracteres especiais por '-'.
     """
     value = unidecode(value)  # Remove acentos e normaliza
     value = re.sub(r"[^\w\s-]", "", value).strip().lower()  # Remove caracteres especiais
