@@ -55,9 +55,43 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 @app.get(
     "/embrapa/vitivinicultura/{categoria}",
     responses={
-        200: {"descrição": "Lista de dados categorizados"},
-        404: {"descrição": "Categoria não encontrada"},
-        500: {"descrição": "Erro interno de servidor"},
+        200: {
+            "description": "Lista de dados categorizados",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "id": "string",
+                            "control": "string",
+                            "produto": "string",
+                            "anos": {
+                                "1994": {
+                                    "quantidade": "19787",
+                                    "valor": "8979"
+                                },
+                                "1995": {
+                                    "quantidade": "40703",
+                                    "valor": "20108"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        500:{
+            "description": "Erro interno de servidor",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "error": 500, "message": "descrição do erro"
+                        }
+                    ]
+                }
+            }
+        },
+        404: {"descrição": "Categoria não encontrada"}
     },
 )
 def get_categoria(
