@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from enum import Enum
 from typing import List
 import requests
 import os
@@ -10,9 +9,6 @@ import ssl
 import certifi
 import re
 from unidecode import unidecode
-
-
-
 
 # Configurações iniciais
 BEARER_TOKEN = "zQwcy2podAfPPYeoqtrdwvbECb5BbIyr7Xa9KYftTdJhrbxHpPPo09Ol1oWvKIzx"
@@ -25,30 +21,23 @@ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 # Configuração para uso do SSL com certificados
 ssl_context = certifi.where()
 
-class CategoriaEnum(str, Enum):
-    producao = "producao"
-    comercializacao = "comercializacao"
-    processamento = "processamento"
-    importacao = "importacao"
-    exportacao = "exportacao"
-
 CATEGORIA_URLS = {
-    CategoriaEnum.producao: "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
-    CategoriaEnum.comercializacao: "http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
-    CategoriaEnum.processamento: [
-        {"Vinífera": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv"},
+    "producao": "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
+    "comercializacao": "http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
+    "processamento": [
+        {"Vinifera": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv"},
         {"Sem Classe": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaSemclass.csv"},
         {"Mesa": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaMesa.csv"},
         {"Americanas": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaAmericanas.csv"}
     ],
-    CategoriaEnum.importacao: [
+    "importacao": [
         {"Vinhos": "http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv"},
         {"Sucos": "http://vitibrasil.cnpuv.embrapa.br/download/ImpSuco.csv"},
         {"Passas": "http://vitibrasil.cnpuv.embrapa.br/download/ImpPassas.csv"},
         {"Frescas": "http://vitibrasil.cnpuv.embrapa.br/download/ImpFrescas.csv"},
         {"Espumantes": "http://vitibrasil.cnpuv.embrapa.br/download/ImpEspumantes.csv"}
     ],
-    CategoriaEnum.exportacao: [
+    "exportacao": [
         {"Vinhos": "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv"},
         {"Sucos": "http://vitibrasil.cnpuv.embrapa.br/download/ExpSuco.csv"},
         {"Uvas": "http://vitibrasil.cnpuv.embrapa.br/download/ExpUva.csv"},
@@ -67,11 +56,12 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     "/embrapa/vitivinicultura/{categoria}",
     responses={
         200: {"descrição": "Lista de dados categorizados"},
+        404: {"descrição": "Categoria não encontrada"},
         500: {"descrição": "Erro interno de servidor"},
     },
 )
 def get_categoria(
-    categoria: CategoriaEnum,
+    categoria: str,
     credentials: HTTPAuthorizationCredentials = Depends(verify_token),
 ):
     urls = CATEGORIA_URLS.get(categoria)
@@ -80,14 +70,14 @@ def get_categoria(
         raise HTTPException(status_code=404, detail=f"Categoria '{categoria}' não encontrada.")
 
     if isinstance(urls, str):  # Categoria simples
-        file_path = download_file(urls, categoria.value)
+        file_path = download_file(urls, categoria)
         return csv_to_json(file_path)
 
     elif isinstance(urls, list):  # Categoria com múltiplos arquivos
         all_data = []
         for url_obj in urls:
-            for key, url in url_obj.items():  # Itera pela chave (ex.: "Vinífera") e URL
-                file_path = download_file(url, f"{categoria.value}_{key}")
+            for key, url in url_obj.items():  # Itera pela chave (ex.: "Vinifera") e URL
+                file_path = download_file(url, f"{categoria}_{key}")
                 all_data.extend(csv_to_json(file_path))
         return all_data
 
