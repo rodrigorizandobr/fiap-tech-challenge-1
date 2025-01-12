@@ -8,6 +8,8 @@ import csv
 from pathlib import Path
 import ssl
 import certifi
+import re
+
 
 # Configurações iniciais
 BEARER_TOKEN = "zQwcy2podAfPPYeoqtrdwvbECb5BbIyr7Xa9KYftTdJhrbxHpPPo09Ol1oWvKIzx"
@@ -37,17 +39,17 @@ CATEGORIA_URLS = {
         {"Americanas": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaAmericanas.csv"}
     ],
     CategoriaEnum.importacao: [
-      {"Vinhos": "http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv"},
-      {"Sucos":"http://vitibrasil.cnpuv.embrapa.br/download/ImpSuco.csv"},
-      {"Passas":"http://vitibrasil.cnpuv.embrapa.br/download/ImpPassas.csv"},
-      {"Frescas":"http://vitibrasil.cnpuv.embrapa.br/download/ImpFrescas.csv"},
-      {"Espumantes":"http://vitibrasil.cnpuv.embrapa.br/download/ImpEspumantes.csv"}
+        {"Vinhos": "http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv"},
+        {"Sucos": "http://vitibrasil.cnpuv.embrapa.br/download/ImpSuco.csv"},
+        {"Passas": "http://vitibrasil.cnpuv.embrapa.br/download/ImpPassas.csv"},
+        {"Frescas": "http://vitibrasil.cnpuv.embrapa.br/download/ImpFrescas.csv"},
+        {"Espumantes": "http://vitibrasil.cnpuv.embrapa.br/download/ImpEspumantes.csv"}
     ],
     CategoriaEnum.exportacao: [
-        {"Vinhos":"http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv"},
-        {"Sucos":"http://vitibrasil.cnpuv.embrapa.br/download/ExpSuco.csv"},
-        {"Uvas":"http://vitibrasil.cnpuv.embrapa.br/download/ExpUva.csv"},
-        {"Espumantes":"http://vitibrasil.cnpuv.embrapa.br/download/ExpEspumantes.csv"}
+        {"Vinhos": "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv"},
+        {"Sucos": "http://vitibrasil.cnpuv.embrapa.br/download/ExpSuco.csv"},
+        {"Uvas": "http://vitibrasil.cnpuv.embrapa.br/download/ExpUva.csv"},
+        {"Espumantes": "http://vitibrasil.cnpuv.embrapa.br/download/ExpEspumantes.csv"}
     ],
 }
 
@@ -105,6 +107,16 @@ def download_file(url: str, filename: str) -> Path:
 
 def csv_to_json(file_path: Path) -> List[dict]:
     try:
+        # Lê o conteúdo do arquivo e substitui tabulações por ponto e vírgula
+        with open(file_path, mode="r", encoding="utf-8") as file:
+            content = file.read()
+            content = content.replace("\t", ";")  # Substitui tabulações por ponto e vírgula
+        
+        # Salva o conteúdo atualizado temporariamente no mesmo arquivo
+        with open(file_path, mode="w", encoding="utf-8") as file:
+            file.write(content)
+        
+        # Agora processa o arquivo com o delimitador padrão (;)
         with open(file_path, mode="r", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=";")
             rows = []
@@ -113,17 +125,16 @@ def csv_to_json(file_path: Path) -> List[dict]:
                 json_row = {}
                 anos = {}
                 for key, value in row.items():
-                    if key.isdigit():  # Trata colunas que representam anos
-                        if key not in anos:
-                            anos[key] = {"valor": value}  # Primeiro valor para o ano
+                    if key and value:  # Certifica-se de que key e value não são None
+                        key = key.strip()  # Remove espaços ao redor da chave
+                        if key.isdigit():  # Trata colunas que representam anos
+                            anos[key] = value.strip() if value else None
                         else:
-                            anos[key]["quantidade"] = anos[key].get("valor", None)  # Move o primeiro valor para "quantidade"
-                            anos[key]["valor"] = value  # Atualiza o novo valor como "valor"
-                    else:
-                        json_row[key] = value
+                            json_row[key] = value.strip() if value else None
                 if anos:
                     json_row["anos"] = anos
-                rows.append(json_row)
+                if json_row:  # Adiciona apenas linhas válidas
+                    rows.append(json_row)
 
             return rows
     except Exception as e:
