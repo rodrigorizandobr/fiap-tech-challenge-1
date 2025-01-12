@@ -107,34 +107,55 @@ def download_file(url: str, filename: str) -> Path:
 
 def csv_to_json(file_path: Path) -> List[dict]:
     try:
-        # Lê o conteúdo do arquivo e substitui tabulações por ponto e vírgula
+        # Substituir tabulação por ponto e vírgula antes de processar
         with open(file_path, mode="r", encoding="utf-8") as file:
-            content = file.read()
-            content = content.replace("\t", ";")  # Substitui tabulações por ponto e vírgula
+            content = file.read().replace("\t", ";")
         
-        # Salva o conteúdo atualizado temporariamente no mesmo arquivo
+        # Reescrevendo o arquivo com o delimitador correto
         with open(file_path, mode="w", encoding="utf-8") as file:
             file.write(content)
-        
-        # Agora processa o arquivo com o delimitador padrão (;)
-        with open(file_path, mode="r", encoding="utf-8") as file:
-            reader = csv.DictReader(file, delimiter=";")
-            rows = []
 
+        # Agora processa o arquivo
+        with open(file_path, mode="r", encoding="utf-8") as file:
+            reader = csv.reader(file, delimiter=';')
+            header = next(reader)  # Lê o cabeçalho
+
+            # Identificar anos e mapear 'quantidade' e 'valor'
+            years_mapping = {}
+            non_year_columns = []
+            for index, col in enumerate(header):
+                if col.isdigit():  # Coluna de ano
+                    if col not in years_mapping:
+                        years_mapping[col] = {"valor": index}  # Primeiro valor para o ano
+                    else:
+                        years_mapping[col]["quantidade"] = index  # Segundo valor para o ano
+                else:
+                    non_year_columns.append((index, col))  # Colunas que não são anos
+
+            # Processa os dados
+            rows = []
             for row in reader:
                 json_row = {}
                 anos = {}
-                for key, value in row.items():
-                    if key and value:  # Certifica-se de que key e value não são None
-                        key = key.strip()  # Remove espaços ao redor da chave
-                        if key.isdigit():  # Trata colunas que representam anos
-                            anos[key] = value.strip() if value else None
-                        else:
-                            json_row[key] = value.strip() if value else None
-                if anos:
-                    json_row["anos"] = anos
-                if json_row:  # Adiciona apenas linhas válidas
-                    rows.append(json_row)
+
+                # Adiciona colunas não relacionadas a anos
+                for index, col_name in non_year_columns:
+                    if index < len(row):
+                        json_row[col_name] = row[index].strip()
+
+                # Adiciona colunas relacionadas a anos
+                for year, indices in years_mapping.items():
+                    quantidade = row[indices.get("quantidade", -1)].strip() if "quantidade" in indices else None
+                    valor = row[indices["valor"]].strip() if "valor" in indices else None
+
+                    # Preenche apenas `valor` se `quantidade` não estiver presente
+                    if quantidade is None or quantidade == "":
+                        anos[year] = {"valor": valor}
+                    else:
+                        anos[year] = {"quantidade": quantidade, "valor": valor}
+
+                json_row["anos"] = anos
+                rows.append(json_row)
 
             return rows
     except Exception as e:
