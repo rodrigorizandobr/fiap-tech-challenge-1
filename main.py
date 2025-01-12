@@ -61,6 +61,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
                 "application/json": {
                     "example": [
                         {
+                            "categoria":"string",
                             "id": "string",
                             "control": "string",
                             "produto": "string",
