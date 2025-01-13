@@ -36,7 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Start python app
       run: |
-        uvicorn main:app --reload &
+        uvicorn main:app --reload
         top
     - name: Stop python app
       run: |
