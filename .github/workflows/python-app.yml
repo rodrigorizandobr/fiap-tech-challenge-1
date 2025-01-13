@@ -37,6 +37,7 @@ jobs:
     - name: Start python app
       run: |
         uvicorn main:app --reload &
+        top
     - name: Stop python app
       run: |
         killall Python
