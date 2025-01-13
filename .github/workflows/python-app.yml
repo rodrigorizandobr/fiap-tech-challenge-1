@@ -37,7 +37,7 @@ jobs:
     - name: Start python app
       run: |
         uvicorn main:app --reload
-        top
+        sleep 5  # Aguarda 5 segundos para garantir que o servidor inicie
     - name: Stop python app
       run: |
-        killall Python
+        pkill -f "uvicorn main:app"  # Finaliza o processo do Uvicorn
