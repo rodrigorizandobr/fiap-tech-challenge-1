@@ -21,7 +21,7 @@ Execute o seguinte comando no terminal:
 
 #### **Para macOS/Linux:**
 ```bash
-python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --reload
+python3 -m venv env && source venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --reload
 ```
 
 #### **Para Windows (PowerShell):**
