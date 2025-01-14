@@ -64,7 +64,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
                             "categoria":"string",
                             "id": "string",
                             "control": "string",
-                            "produto": "string",
+                            "produto": "string", # ou cultivar no caso de processamento
                             "anos": {
                                 "1994": {
                                     "quantidade": "19787",
